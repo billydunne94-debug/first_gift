@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falling Hearts</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0ebe1;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #4a3f35;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1.5em;
+            color: #4a3f35;
+        }
+
+        button {
+            background-color: #4a3f35;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #d8c3a5;
+        }
+
+        .heart {
+            position: absolute;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: fall 10s linear infinite;
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Add shadow for better visibility */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Hover effect for hearts */
+        .heart:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); /* Glow effect on hover */
+        }
+
+        /* Large heart */
+        .large-heart {
+            width: 100px; /* Larger size for hearts with message */
+            height: 100px;
+        }
+
+        /* Small heart */
+        .small-heart {
+            width: 50px;  /* Smaller size for hearts without message */
+            height: 50px;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh);
+                opacity: 0.5;
+            }
+        }
+
+        #message {
+            font-size: 1.8em;
+            color: #4a3f35;
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        #backButton {
+            background-color: #d8c3a5;
+            color: #4a3f35;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 40px;
+        }
+
+        #backButton:hover {
+            background-color: #4a3f35;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Watch the Falling Hearts</h1>
+    <p>Click below to start the heart animation.</p>
+
+    <button onclick="startFallingHearts()">Start Falling Hearts</button>
+
+    <div id="message"></div> <!-- Display message area -->
+
+    <button id="backButton" onclick="goBack()">Back to Main Page</button> <!-- Back button -->
+
+    <script>
+        let heartInterval;
+
+        // Text for the hearts
+        const heartMessages = [
+            "You complete me. — Jerry Maguire (1996)",
+            "I would rather spend one lifetime with you, than face all the ages of this world alone. — The Lord of the Rings: The Fellowship of the Ring (2001)",
+            "It’s not about having the perfect life, it’s about finding someone who makes everything perfect. — The Notebook (2004)",
+            "I can’t give you the world, but I can give you all of me. — Eat Pray Love ",
+            "There’s no one else I’d rather spend my life with. — Sweet Home Alabama (2002)",
+            "I think you’re the most beautiful thing I’ve ever seen. — The Princess Diaries 2: Royal Engagement (2004)", 
+            "What I know for sure is that when I’m with you, I feel like I’m exactly where I’m supposed to be. — The Lucky One (2012)"
+        ];
+
+        function startFallingHearts() {
+            // Clear any previous hearts
+            clearInterval(heartInterval);
+
+            function createHeart() {
+                const heart = document.createElement('div');
+
+                // Randomly decide whether this heart will have a message or not
+                const hasMessage = Math.random() > 0.5;  // 50% chance to have a message
+                const randomMessageIndex = Math.floor(Math.random() * heartMessages.length);
+
+                // Apply large or small size based on whether the heart has a message
+                if (hasMessage) {
+                    heart.classList.add('heart', 'large-heart');
+                    heart.setAttribute('data-message', heartMessages[randomMessageIndex]);
+                } else {
+                    heart.classList.add('heart', 'small-heart');
+                }
+
+                heart.style.left = Math.random() * 100 + "vw";  // Randomly set horizontal position
+                heart.style.animationDuration = (Math.random() * 2 + 8) + "s"; // Randomize falling speed
+
+                // Optionally add a heart image for a more realistic effect
+                heart.style.backgroundImage = "url('heart.jpg')";  // Heart image path
+
+                document.body.appendChild(heart);
+                
+                // Remove heart after animation completes
+                setTimeout(() => heart.remove(), 10000);
+
+                // Add click event listener to show message when a large heart is clicked
+                heart.addEventListener('click', () => {
+                    if (hasMessage) {
+                        showMessage(heart.getAttribute('data-message'));
+                    }
+                });
+            }
+
+            // Start generating hearts every 500ms
+            heartInterval = setInterval(createHeart, 500);
+
+            // Stop the animation after 30 seconds
+            setTimeout(() => clearInterval(heartInterval), 30000);
+        }
+
+        // Function to display the message when a large heart is clicked
+        function showMessage(message) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block'; // Show the message div
+        }
+
+        // Function to go back to the main page
+        function goBack() {
+            window.location.href = 'index.html'; // Change this to your main page URL
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Love Quiz</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0ebe1;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            overflow: auto;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #4a3f35;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.5em;
+            color: #4a3f35;
+        }
+
+        .quiz-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.2em;
+            text-align: center;
+            overflow: auto;
+        }
+
+        .quiz-question {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        button {
+            background-color: #4a3f35;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #d8c3a5;
+        }
+
+        .progress {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #4a3f35;
+        }
+
+        #love-message {
+            font-size: 1.8em;
+            color: #4a3f35;
+            margin-top: 30px;
+            display: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Interactive Love Quiz</h1>
+    <p>Answer a few questions to receive your personalized love message!</p>
+
+    <div class="quiz-container">
+        <div id="question1" class="quiz-question active">
+            <p>What is your idea of the perfect date?</p>
+            <button onclick="setAnswer('romantic', 1)">A romantic dinner by the beach</button>
+            <button onclick="setAnswer('adventurous', 1)">An adventurous hike in the mountains</button>
+            <button onclick="setAnswer('cozy', 1)">A cozy movie night at home</button>
+        </div>
+
+        <div id="question2" class="quiz-question">
+            <p>What is your favorite way to express love?</p>
+            <button onclick="setAnswer('gifts', 2)">Giving thoughtful gifts</button>
+            <button onclick="setAnswer('words', 2)">Expressing love with words</button>
+            <button onclick="setAnswer('acts', 2)">Doing little acts of kindness</button>
+        </div>
+
+        <div id="question3" class="quiz-question">
+            <p>What makes you feel loved the most?</p>
+            <button onclick="setAnswer('attention', 3)">Receiving attention and care</button>
+            <button onclick="setAnswer('humor', 3)">Laughter and shared fun moments</button>
+            <button onclick="setAnswer('comfort', 3)">Feeling comfortable and understood</button>
+        </div>
+
+        <div id="love-message"></div>
+        <div class="progress">Question <span id="current-question">1</span>/3</div>
+    </div>
+
+    <script>
+        let answers = [];
+        let currentQuestion = 1;
+
+        function setAnswer(answer, questionNumber) {
+            answers[questionNumber - 1] = answer; // Store the answer
+            showNextQuestion(); // Move to the next question
+        }
+
+        function showNextQuestion() {
+            const totalQuestions = 3;
+
+            // Hide current question
+            document.getElementById(`question${currentQuestion}`).classList.remove('active');
+
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                // Show next question
+                document.getElementById(`question${currentQuestion}`).classList.add('active');
+                document.getElementById('current-question').textContent = currentQuestion; // Update progress
+            } else {
+                generateMessage(); // Show the love message if all questions are answered
+            }
+        }
+
+        function generateMessage() {
+            let message = '';
+
+            // Generate message based on answers
+            if (answers.includes('romantic')) {
+                message += 'You are the true romantic, always seeking a love that\'s full of passion and deep connection. ';
+            }
+            if (answers.includes('adventurous')) {
+                message += 'Your love is wild and adventurous, always seeking new thrills and experiences with your partner. ';
+            }
+            if (answers.includes('cozy')) {
+                message += 'You love the simplicity of a cozy, intimate evening, where comfort and connection are at the heart of everything. ';
+            }
+            if (answers.includes('gifts')) {
+                message += 'You show your love through thoughtful gifts, always trying to make your partner feel special. ';
+            }
+            if (answers.includes('words')) {
+                message += 'Your love is expressed in words, where every sentence is filled with affection and care. ';
+            }
+            if (answers.includes('acts')) {
+                message += 'You express your love with acts of kindness, always there to help and support your partner. ';
+            }
+            if (answers.includes('attention')) {
+                message += 'You feel most loved when your partner gives you their full attention, showing you how much you mean to them. ';
+            }
+            if (answers.includes('humor')) {
+                message += 'Laughter is the best medicine for your heart, and you love to share funny moments with your partner. ';
+            }
+            if (answers.includes('comfort')) {
+                message += 'You love feeling safe and understood, knowing that your partner has your back in any situation. ';
+            }
+
+            // Display the love message
+            const loveMessageDiv = document.getElementById('love-message');
+            loveMessageDiv.textContent = message;
+            loveMessageDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

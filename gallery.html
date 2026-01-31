@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mga paborito kong kuha sa 'yo</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #222;
+            color: #f0ebe1;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #f4a261;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        p.subtitle {
+            font-size: 1.2em;
+            color: #e9c46a;
+            margin-bottom: 30px;
+        }
+
+        .back-section {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background-color: #f4a261;
+            color: #222;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #e76f51;
+            color: #fff;
+        }
+
+        .gallery-container {
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+        }
+
+        .gallery {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .gallery-item {
+            position: relative;
+            min-width: 100%;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #f0ebe1;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #f4a261;
+            color: #222;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #e76f51;
+            color: #fff;
+        }
+
+        .indicator-container {
+            margin-top: 15px;
+        }
+
+        .indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: #444;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .indicator.active {
+            background-color: #f4a261;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-section">
+        <a href="love u.html" class="back-button">← Back to Main Page</a>
+    </div>
+
+    <h1>Mga paborito kong kuha sa 'yo</h1>
+    <p class="subtitle">Ang ganda mo palagi</p>
+
+    <div class="gallery-container">
+        <div class="gallery" id="gallery">
+            <div class="gallery-item">
+                <img src="gallery1.jpg" alt="Serene Landscape">
+                <div class="caption">"My cubao expo girly pop."</div>
+            </div>
+            <div class="gallery-item">
+                <img src="gallery2.jpg" alt="Urban Jungle">
+                <div class="caption">"Mala geloy na kuha pop."</div>
+            </div>
+            <div class="gallery-item">
+                <img src="gallery3.jpg" alt="Golden Hour Portrait">
+                <div class="caption">"Mahal pala ng dirty ice cream pop sa Manila"</div>
+            </div>
+            <div class="gallery-item">
+                <img src="gallery4.jpg" alt="Reflection Study">
+                <div class="caption">"Shet ang ganda wala akong masabi"</div>
+            </div>
+            <div class="gallery-item">
+                <img src="gallery5.jpg" alt="Abstract Patterns">
+                <div class="caption">"Flatline......."</div>
+            </div>
+            <div class="gallery-item">
+                <img src="gallery6.jpg" alt="Night Lights">
+                <div class="caption">"My super gastos gf."</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button onclick="previous()">Previous</button>
+        <button onclick="next()">Next</button>
+    </div>
+
+    <div class="indicator-container" id="indicators"></div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const indicators = document.getElementById('indicators');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        let currentIndex = 0;
+
+        // Create indicators
+        for (let i = 0; i < galleryItems.length; i++) {
+            const indicator = document.createElement('div');
+            indicator.classList.add('indicator');
+            if (i === 0) indicator.classList.add('active');
+            indicator.dataset.index = i;
+            indicator.addEventListener('click', () => goToSlide(i));
+            indicators.appendChild(indicator);
+        }
+
+        // Function to go to the previous slide
+        function previous() {
+            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            updateGallery();
+        }
+
+        // Function to go to the next slide
+        function next() {
+            currentIndex = (currentIndex + 1) % galleryItems.length;
+            updateGallery();
+        }
+
+        // Function to go to a specific slide
+        function goToSlide(index) {
+            currentIndex = index;
+            updateGallery();
+        }
+
+        // Update gallery and indicators
+        function updateGallery() {
+            gallery.style.transform = `translateX(-${currentIndex * 100}%)`;
+            document.querySelectorAll('.indicator').forEach((ind, i) => {
+                ind.classList.toggle('active', i === currentIndex);
+            });
+        }
+    </script>
+</body>
+</html>
